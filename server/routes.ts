@@ -16,6 +16,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         createdAt: new Date().toISOString(),
       });
       
+      // Log form submission for forwarding to ds6406481@gmail.com
+      console.log('====== NARNETIX AI CONTACT FORM SUBMISSION ======');
+      console.log(`Name: ${contactData.name}`);
+      console.log(`Email: ${contactData.email}`);
+      console.log(`Company: ${contactData.company}`);
+      console.log(`Interest: ${contactData.interest}`);
+      console.log(`Message: ${contactData.message}`);
+      console.log(`Time: ${new Date().toLocaleString()}`);
+      console.log('===============================================');
+      console.log('Please forward this information to ds6406481@gmail.com');
+      
       return res.status(201).json({
         message: "Contact submission successful",
         contact: newContact

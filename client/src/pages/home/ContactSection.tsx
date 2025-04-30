@@ -88,9 +88,9 @@ const ContactSection: FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Transform Your Business with{" "}
+              Ready to Automate Your Work with{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                Agentic AI?
+                Narnetix AI?
               </span>
             </h2>
             <p className="text-gray-300 mb-8">
@@ -108,11 +108,11 @@ const ContactSection: FC = () => {
                 </p>
                 <div className="h-80 bg-dark-lighter/50 rounded-lg flex items-center justify-center mb-4 border border-gray-700">
                   <iframe
-                    src="https://calendly.com/d/ysc-gkx-t3j/agentai-demo?hide_gdpr_banner=1"
+                    src="https://calendly.com/ds6406481/narnetix-ai-demo"
                     width="100%"
                     height="100%"
                     frameBorder="0"
-                    title="Schedule a demo with AgentAI"
+                    title="Schedule a demo with Narnetix AI"
                   ></iframe>
                 </div>
                 <p className="text-sm text-gray-400">
@@ -127,13 +127,13 @@ const ContactSection: FC = () => {
                 <div className="mr-3 h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                   <Mail className="h-5 w-5 text-primary" />
                 </div>
-                <span className="text-gray-300">contact@agentai.com</span>
+                <span className="text-gray-300">ds6406481@gmail.com</span>
               </div>
               <div className="flex items-center">
                 <div className="mr-3 h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
                   <Phone className="h-5 w-5 text-secondary" />
                 </div>
-                <span className="text-gray-300">+1 (800) 123-4567</span>
+                <span className="text-gray-300">Book a demo via Calendly</span>
               </div>
             </div>
           </motion.div>
