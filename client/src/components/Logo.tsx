@@ -1,4 +1,6 @@
 import { FC } from "react";
+import narnetixLogo from "../assets/narnetix-logo.png";
+import { SITE_NAME } from "@/lib/constants";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
@@ -6,19 +8,19 @@ interface LogoProps {
 
 const Logo: FC<LogoProps> = ({ size = "md" }) => {
   const sizeClasses = {
-    sm: "w-8 h-8 text-lg",
-    md: "w-10 h-10 text-xl",
-    lg: "w-12 h-12 text-2xl",
+    sm: "h-8",
+    md: "h-10",
+    lg: "h-12",
   };
 
   return (
     <div className="flex items-center space-x-2">
-      <div
-        className={`${sizeClasses[size]} rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center`}
-      >
-        <span className="text-white font-bold">A</span>
-      </div>
-      <span className="text-white font-bold text-xl">AgentAI</span>
+      <img 
+        src={narnetixLogo} 
+        alt={SITE_NAME} 
+        className={`${sizeClasses[size]}`} 
+      />
+      <span className="text-white font-bold text-xl">Narnetix AI</span>
     </div>
   );
 };

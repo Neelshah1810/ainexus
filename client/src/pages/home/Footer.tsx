@@ -155,7 +155,7 @@ const Footer: FC = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <p className="text-gray-400">
-            &copy; {new Date().getFullYear()} AgentAI Solutions. All rights reserved.
+            &copy; {new Date().getFullYear()} Narnetix AI. All rights reserved.
           </p>
         </motion.div>
       </div>

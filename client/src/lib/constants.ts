@@ -1,5 +1,5 @@
-export const SITE_NAME = "AgentAI Solutions";
-export const SITE_DESCRIPTION = "Empowering Businesses with Agentic AI";
+export const SITE_NAME = "Narnetix AI";
+export const SITE_DESCRIPTION = "Your Work. Just Automated.";
 
 export const SOLUTIONS = [
   {
