@@ -1,47 +1,48 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { Bot, Network, MessageCircle, Workflow, Box, Zap, Settings, Brain } from "lucide-react";
 
 const techStack = [
   {
-    title: "OpenAI GPT Models",
-    description: "Advanced language models powering our agent cognition",
-    icon: "OpenAI",
+    title: "AI Agent",
+    description: "Intelligent autonomous agents for complex task execution",
+    icon: <Bot className="w-10 h-10 text-primary" />,
   },
   {
-    title: "LangChain",
-    description: "Framework for creating contextual AI applications",
-    icon: "LangChain",
+    title: "AI Integration",
+    description: "Seamless connection between AI systems and business software",
+    icon: <Network className="w-10 h-10 text-primary" />,
   },
   {
-    title: "Vector Databases",
-    description: "Efficient knowledge retrieval for contextual understanding",
-    icon: "Pinecone",
+    title: "AI Chatbot",
+    description: "Conversational interfaces for natural user interactions",
+    icon: <MessageCircle className="w-10 h-10 text-primary" />,
   },
   {
-    title: "LLaMA Models",
-    description: "Open-source foundation models for specialized tasks",
-    icon: "LLaMA",
+    title: "AI Automation",
+    description: "Automated workflows powered by artificial intelligence",
+    icon: <Workflow className="w-10 h-10 text-primary" />,
   },
   {
-    title: "Custom API Framework",
-    description: "Secure integration with business software systems",
-    icon: "API",
+    title: "n8n",
+    description: "Open-source workflow automation platform for technical users",
+    icon: <Box className="w-10 h-10 text-primary" />,
   },
   {
-    title: "Graph Databases",
-    description: "Modeling complex relationships for better reasoning",
-    icon: "Neo4j",
+    title: "Zapier",
+    description: "No-code integration platform connecting apps and automations",
+    icon: <Zap className="w-10 h-10 text-primary" />,
   },
   {
-    title: "Custom UI Framework",
-    description: "Intuitive interfaces for agent configuration and monitoring",
-    icon: "UI",
+    title: "Make",
+    description: "Advanced automation platform for complex business workflows",
+    icon: <Settings className="w-10 h-10 text-primary" />,
   },
   {
-    title: "Secure Cloud Infrastructure",
-    description: "Enterprise-grade security and scalability",
-    icon: "Cloud",
+    title: "LLM",
+    description: "Large Language Models for natural language understanding",
+    icon: <Brain className="w-10 h-10 text-primary" />,
   },
 ];
 
@@ -97,10 +98,8 @@ const TechnologySection: FC = () => {
           {techStack.map((tech) => (
             <motion.div key={tech.title} variants={itemVariants}>
               <Card className="bg-dark-DEFAULT rounded-xl p-6 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-800 h-full">
-                <div className="w-16 h-16 flex items-center justify-center mb-4">
-                  <div className="text-white text-2xl font-bold">
-                    {tech.icon}
-                  </div>
+                <div className="w-16 h-16 flex items-center justify-center mb-4 bg-dark-lighter rounded-full p-3">
+                  {tech.icon}
                 </div>
                 <h3 className="text-lg font-medium mb-2">{tech.title}</h3>
                 <p className="text-gray-400 text-sm">{tech.description}</p>

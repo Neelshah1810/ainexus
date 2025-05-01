@@ -1,6 +1,7 @@
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Spline from '@splinetool/react-spline';
 
 const HeroSection: FC = () => {
   const scrollToElement = (id: string) => {
@@ -19,12 +20,15 @@ const HeroSection: FC = () => {
       className="pt-28 pb-20 md:pt-36 md:pb-32 overflow-hidden relative"
       style={{
         background:
-          "linear-gradient(45deg, rgba(37,99,235,0.1), rgba(127,88,228,0.1))",
+          "linear-gradient(45deg, rgba(37,99,235,0.2), rgba(127,88,228,0.2))",
       }}
     >
       <div className="container mx-auto px-4 relative">
-        <div className="absolute top-0 right-0 -mt-20 opacity-30 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -mb-20 opacity-30 w-96 h-96 bg-secondary/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-0 right-0 -mt-20 opacity-60 w-96 h-96 bg-primary/40 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 -mb-20 opacity-60 w-96 h-96 bg-secondary/40 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-40 w-[600px] h-[600px] bg-white/30 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/3 right-1/4 opacity-50 w-64 h-64 bg-yellow-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/3 left-1/4 opacity-50 w-64 h-64 bg-blue-400/20 rounded-full filter blur-3xl"></div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -68,12 +72,29 @@ const HeroSection: FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mt-16 relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background z-10"></div>
-          <img
-            src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-            alt="Abstract AI visualization"
-            className="w-full h-80 object-cover rounded-xl"
-          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background z-10 opacity-80"></div>
+          <div className="w-full h-[400px] md:h-[500px] rounded-xl overflow-hidden relative">
+            {/* Light effect around the scene */}
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/40 via-transparent to-transparent z-0 opacity-80"></div>
+            <div className="absolute inset-0 bg-gradient-to-l from-secondary/40 via-transparent to-transparent z-0 opacity-80"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/15 via-transparent to-transparent z-0 mix-blend-screen"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-transparent z-0 mix-blend-screen"></div>
+            <div className="absolute inset-0 bg-white/5 z-0 mix-blend-screen"></div>
+            
+            {/* Filter for brightness */}
+            <div className="w-full h-full relative z-1 brightness-150 contrast-115 saturate-105">
+              <Suspense fallback={
+                <div className="w-full h-full bg-primary/20 rounded-xl flex items-center justify-center">
+                  <div className="text-foreground">Loading 3D Scene...</div>
+                </div>
+              }>
+                <Spline 
+                  scene="https://prod.spline.design/iI63sVf9Sd5XL7xQ/scene.splinecode" 
+                  className="w-full h-full"
+                />
+              </Suspense>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

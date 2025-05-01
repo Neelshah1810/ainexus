@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import Logo from "./Logo";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ const navLinks = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [location] = useLocation();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -35,6 +36,8 @@ const Navbar = () => {
 
   const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const href = e.currentTarget.getAttribute("href");
+    
+    // Handle anchor links with smooth scrolling
     if (href?.startsWith("#")) {
       e.preventDefault();
       const element = document.querySelector(href);
@@ -45,18 +48,40 @@ const Navbar = () => {
         });
         setIsOpen(false);
       }
+    } 
+    // For non-anchor links, let the default navigation happen
+    else {
+      // Close mobile menu if open
+      setIsOpen(false);
     }
+  };
+  
+  // Handle logo click - either navigate home or scroll to top
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If already on home page, just scroll to top
+    if (location === "/") {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+    // Otherwise, let default navigation happen (will go to home page)
   };
 
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-dark-DEFAULT/95 backdrop-blur-md" : "bg-transparent"
+        scrolled ? "bg-background/95 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <nav className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link 
+            href="/" 
+            className="flex items-center space-x-2"
+            onClick={handleLogoClick}
+          >
             <Logo />
           </Link>
 
@@ -66,26 +91,37 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors"
                 onClick={handleNavLinkClick}
               >
                 {link.name}
               </a>
             ))}
-            <Button
-              asChild
-              className="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-full transition-colors"
-            >
-              <a href="#contact" onClick={handleNavLinkClick}>
-                Book a Demo
-              </a>
-            </Button>
+            {location === "/" ? (
+              <Button
+                asChild
+                className="bg-primary hover:bg-primary/80 text-primary-foreground px-5 py-2 rounded-full transition-colors"
+              >
+                <a href="#contact" onClick={handleNavLinkClick}>
+                  Book a Demo
+                </a>
+              </Button>
+            ) : (
+              <Button
+                asChild
+                className="bg-primary hover:bg-primary/80 text-primary-foreground px-5 py-2 rounded-full transition-colors"
+              >
+                <Link href="/#contact">
+                  Book a Demo
+                </Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden text-white focus:outline-none"
+            className="md:hidden text-foreground focus:outline-none"
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -107,7 +143,7 @@ const Navbar = () => {
                   <a
                     key={link.name}
                     href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors py-2"
+                    className="text-muted-foreground hover:text-foreground transition-colors py-2"
                     onClick={handleNavLinkClick}
                   >
                     {link.name}
@@ -115,7 +151,7 @@ const Navbar = () => {
                 ))}
                 <Button
                   asChild
-                  className="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-full transition-colors w-full"
+                  className="bg-primary hover:bg-primary/80 text-primary-foreground px-5 py-2 rounded-full transition-colors w-full"
                 >
                   <a href="#contact" onClick={handleNavLinkClick}>
                     Book a Demo

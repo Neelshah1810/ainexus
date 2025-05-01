@@ -1,6 +1,22 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+
+// Define Calendly type for TypeScript
+interface CalendlyWidget {
+  initInlineWidget: (options: {
+    url: string;
+    parentElement: HTMLElement | null;
+    prefill?: Record<string, any>;
+    utm?: Record<string, any>;
+  }) => void;
+}
+
+declare global {
+  interface Window {
+    Calendly?: CalendlyWidget;
+  }
+}
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Phone } from "lucide-react";
@@ -39,6 +55,63 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const ContactSection: FC = () => {
   const { toast } = useToast();
+  const [isCalendlyLoading, setIsCalendlyLoading] = useState(true);
+  
+  // Initialize Calendly widget when component mounts
+  useEffect(() => {
+    const initializeCalendly = () => {
+      const element = document.getElementById('calendly-inline-widget');
+      if (window.Calendly && element) {
+        window.Calendly.initInlineWidget({
+          url: 'https://calendly.com/info-narnetix-ai/30min?hide_gdpr_banner=1&background_color=121212&text_color=ffffff&primary_color=6d28d9',
+          parentElement: element,
+          prefill: {},
+          utm: {}
+        });
+        
+        // Set up an observer to detect when Calendly has loaded its content
+        const observer = new MutationObserver((mutations) => {
+          // Check if Calendly has added its elements to the DOM
+          const hasCalendlyLoaded = element.querySelector('.calendly-inline-widget iframe');
+          if (hasCalendlyLoaded) {
+            setIsCalendlyLoading(false);
+            observer.disconnect();
+          }
+        });
+        
+        // Start observing the widget container for DOM changes
+        observer.observe(element, { childList: true, subtree: true });
+        
+        // Fallback timer in case observer doesn't trigger
+        setTimeout(() => {
+          setIsCalendlyLoading(false);
+        }, 2500);
+      }
+    };
+
+    // Load Calendly script if it hasn't been loaded yet
+    if (!window.Calendly) {
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      
+      // Initialize Calendly after script loads
+      script.onload = initializeCalendly;
+      
+      document.body.appendChild(script);
+    } else {
+      // If already loaded, initialize widget
+      initializeCalendly();
+    }
+
+    // Clean up script when component unmounts
+    return () => {
+      const existingScript = document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]');
+      if (existingScript && existingScript.parentNode) {
+        existingScript.parentNode.removeChild(existingScript);
+      }
+    };
+  }, []);
   
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -77,82 +150,102 @@ const ContactSection: FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-dark-lighter">
+    <section id="contact" className="py-16 bg-dark-lighter">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-12">
+        <motion.div 
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
+          <p className="text-gray-300 max-w-2xl mx-auto">
+            Have questions about our AI solutions? Schedule a consultation or send us a message.
+          </p>
+        </motion.div>
+        
+        <div className="flex flex-col md:flex-row gap-8 items-stretch">
           <motion.div
-            className="md:w-1/2"
+            className="md:w-1/2 flex flex-col"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Automate Your Work with{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-                Narnetix AI?
-              </span>
-            </h2>
-            <p className="text-gray-300 mb-8">
-              Schedule a consultation with our AI specialists to discuss your
-              business challenges and explore how our AI agents can help you
-              achieve unprecedented efficiency and growth.
+            <h3 className="text-2xl font-bold mb-3">Schedule a Consultation</h3>
+            <p className="text-gray-300 mb-4">
+              Book a 30-minute call to discuss your needs and explore how our 
+              AI solutions can help your business.
             </p>
-
-            <Card className="bg-dark-DEFAULT p-8 rounded-xl mb-8 border border-gray-800">
-              <CardContent className="p-0">
-                <h3 className="text-xl font-bold mb-4">Schedule a Demo</h3>
-                <p className="text-gray-300 mb-6">
-                  See our AI agents in action with a personalized demonstration
-                  tailored to your business needs.
+            <Card className="bg-dark-DEFAULT p-5 rounded-xl shadow-md flex-1 flex flex-col border border-gray-800">
+              <CardContent className="p-0 flex-1 flex flex-col">
+                <h4 className="text-lg font-semibold mb-2">Available Time Slots</h4>
+                <p className="text-gray-300 text-sm mb-3">
+                  Select a convenient time for your consultation.
                 </p>
-                <div className="h-80 bg-dark-lighter/50 rounded-lg flex items-center justify-center mb-4 border border-gray-700">
-                  <iframe
-                    src="https://calendly.com/ds6406481/narnetix-ai-demo"
-                    width="100%"
-                    height="100%"
-                    frameBorder="0"
-                    title="Schedule a demo with Narnetix AI"
-                  ></iframe>
+                <div 
+                  id="calendly-inline-widget"
+                  className="w-full bg-dark-lighter/50 rounded-lg flex items-center justify-center mb-3 border border-gray-700 overflow-hidden transition-opacity duration-300"
+                  style={{ 
+                    height: '350px',
+                    width: '100%',
+                    minWidth: '300px'
+                  }}
+                  aria-label="Calendly scheduling widget"
+                  role="region"
+                >
+                  {/* Calendly loading state */}
+                  {isCalendlyLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-dark-lighter/90 z-10">
+                      <div className="flex flex-col items-center">
+                        <div className="w-10 h-10 border-4 border-primary/30 border-t-primary rounded-full animate-spin mb-3"></div>
+                        <p className="text-gray-400">Loading calendar...</p>
+                      </div>
+                    </div>
+                  )}
+                  {/* Calendly will inject content here */}
                 </div>
-                <p className="text-sm text-gray-400">
-                  Select a time that works for you. Our demos typically last 30
-                  minutes.
+                <p className="text-xs text-gray-400 mt-auto">
+                  Our consultations last 30 minutes and are conducted via video call.
                 </p>
               </CardContent>
             </Card>
-
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 mt-3">
               <div className="flex items-center">
-                <div className="mr-3 h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Mail className="h-5 w-5 text-primary" />
+                <div className="mr-2 h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Mail className="h-4 w-4 text-primary" />
                 </div>
-                <span className="text-gray-300">ds6406481@gmail.com</span>
+                <span className="text-gray-300 text-xs">info.narnetix.ai@gmail.com</span>
               </div>
               <div className="flex items-center">
-                <div className="mr-3 h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center">
-                  <Phone className="h-5 w-5 text-secondary" />
+                <div className="mr-2 h-7 w-7 rounded-full bg-secondary/10 flex items-center justify-center">
+                  <Phone className="h-4 w-4 text-secondary" />
                 </div>
-                <span className="text-gray-300">Book a demo via Calendly</span>
+                <span className="text-gray-300 text-xs">30-minute video call</span>
               </div>
             </div>
           </motion.div>
 
           <motion.div
-            className="md:w-1/2"
+            className="md:w-1/2 flex flex-col"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Card className="bg-dark-DEFAULT p-8 rounded-xl border border-gray-800">
+            <h3 className="text-2xl font-bold mb-3">Send Us a Message</h3>
+            <p className="text-gray-300 mb-4">
+              Fill out the form below and we'll get back to you as soon as possible.
+            </p>
+            
+            <Card className="bg-dark-DEFAULT p-5 rounded-xl border border-gray-800 shadow-md flex-1">
               <CardContent className="p-0">
-                <h3 className="text-xl font-bold mb-6">Get in Touch</h3>
 
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-6"
+                    className="space-y-3"
                   >
                     <FormField
                       control={form.control}

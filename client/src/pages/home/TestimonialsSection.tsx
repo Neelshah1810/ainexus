@@ -3,35 +3,35 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
+// Generic avatar placeholder
+const genericAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234B5563'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/%3E%3C/svg%3E";
+
 const testimonials = [
   {
-    name: "Michael Thompson",
-    role: "CTO, FinTech Solutions Inc.",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100&q=80",
+    name: "Financial Sector Client",
+    role: "Senior Executive, Finance",
+    image: genericAvatar,
     stars: 5,
     quote:
-      "The AI agents developed by this team have revolutionized our data analysis workflows. What used to take our analysts hours now happens automatically in minutes, with greater accuracy and deeper insights.",
+      "AI agents revolutionized our data analysis, reducing task times from hours to minutes while improving accuracy and delivering deeper insights.",
     result: "42% increase in operational efficiency",
   },
   {
-    name: "Sarah Johnson",
-    role: "Operations Director, MediCare Solutions",
-    image:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100&q=80",
+    name: "Healthcare Sector Client",
+    role: "Operations Leader, Healthcare",
+    image: genericAvatar,
     stars: 5,
     quote:
-      "Their AI workflow automation solution has transformed our patient care coordination. Our staff now spends less time on paperwork and more time with patients. The ROI has been tremendous.",
+      "AI workflow automation transformed our patient care coordination, reducing paperwork and increasing patient interaction time with excellent ROI.",
     result: "35% reduction in administrative workload",
   },
   {
-    name: "David Rodriguez",
-    role: "Supply Chain Manager, Global Retail",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100&q=80",
+    name: "Retail Sector Client",
+    role: "Supply Chain Leader, Retail",
+    image: genericAvatar,
     stars: 5,
     quote:
-      "The predictive inventory management AI has been a game-changer for our supply chain. We've reduced stockouts while simultaneously lowering our inventory costs. The implementation was smooth and the team was highly responsive.",
+      "Predictive inventory AI improved our supply chain efficiency, reducing stockouts and lowering inventory costs with smooth implementation.",
     result: "23% improvement in inventory turnover",
   },
 ];
@@ -56,12 +56,15 @@ const TestimonialsSection: FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (sliderRef.current) {
-        const slides = sliderRef.current.querySelectorAll(".testimonial-slide");
+        const containerWidth = sliderRef.current.clientWidth;
         const scrollLeft = sliderRef.current.scrollLeft;
-        const slideWidth = sliderRef.current.clientWidth;
+        const scrollableWidth = sliderRef.current.scrollWidth - containerWidth;
+        // Calculate current index based on scroll position
+        const slideWidth = containerWidth;
+        const newIndex = Math.min(Math.round(scrollLeft / slideWidth), testimonials.length - 1);
         
-        const newIndex = Math.round(scrollLeft / slideWidth);
-        if (newIndex !== activeIndex && newIndex >= 0 && newIndex < slides.length) {
+        // Update active index if needed
+        if (newIndex !== activeIndex && newIndex >= 0 && newIndex < testimonials.length) {
           setActiveIndex(newIndex);
         }
       }
@@ -74,8 +77,8 @@ const TestimonialsSection: FC = () => {
   }, [activeIndex]);
 
   return (
-    <section id="testimonials" className="py-20 bg-dark-DEFAULT">
-      <div className="container mx-auto px-4">
+    <section id="testimonials" className="py-16 md:py-20 bg-dark-DEFAULT overflow-hidden w-full">
+      <div className="container mx-auto px-3">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -95,61 +98,69 @@ const TestimonialsSection: FC = () => {
           </p>
         </motion.div>
 
-        <div className="testimonial-slider relative">
+        <div className="testimonial-slider relative w-full max-w-4xl mx-auto">
           <div
             ref={sliderRef}
-            className="flex overflow-x-auto pb-8 snap-x snap-mandatory space-x-6 scrollbar-hide"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide w-full"
+            style={{ 
+              scrollbarWidth: "none", 
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch",
+              scrollSnapType: "x mandatory",
+              overflowY: "hidden"
+            }}
           >
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={testimonial.name}
-                className="testimonial-slide min-w-full md:min-w-[400px] flex-shrink-0 snap-center"
+                className="testimonial-slide w-full flex-shrink-0 snap-center px-4"
+                style={{ scrollSnapAlign: "center", scrollSnapStop: "always" }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="bg-dark-lighter rounded-xl p-8 h-full border border-gray-800">
-                  <CardContent className="p-0">
+                <Card className="bg-dark-lighter rounded-xl p-8 h-full border border-gray-800 mx-auto max-w-3xl">
+                  <CardContent className="p-2">
                     <div className="flex items-center mb-6">
                       <div className="mr-4">
                         <img
                           src={testimonial.image}
                           alt={`${testimonial.name} portrait`}
-                          className="w-14 h-14 rounded-full object-cover"
+                          className="w-14 h-14 rounded-full bg-gray-700 p-1"
                         />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold">{testimonial.name}</h3>
-                        <p className="text-gray-400 text-sm">{testimonial.role}</p>
+                        <h3 className="text-xl font-bold">{testimonial.name}</h3>
+                        <p className="text-gray-400 text-lg">{testimonial.role}</p>
                       </div>
                     </div>
-                    <div className="mb-6">
+                    
+                    <div className="mb-5">
                       <div className="flex text-yellow-400 mb-2">
                         {[...Array(testimonial.stars)].map((_, i) => (
                           <Star
                             key={i}
-                            className="h-5 w-5 fill-current"
+                            className="h-6 w-6 fill-current"
                             strokeWidth={0}
                           />
                         ))}
                       </div>
                     </div>
-                    <p className="text-gray-300 italic mb-4">{testimonial.quote}</p>
-                    <p className="text-primary font-medium">{testimonial.result}</p>
+                    <p className="text-gray-300 italic mb-5 line-clamp-3 text-xl">{testimonial.quote}</p>
+                    <p className="text-primary font-medium text-lg">{testimonial.result}</p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
           </div>
 
-          <div className="testimonial-navigation flex justify-center space-x-2 mt-6">
+          <div className="testimonial-navigation flex justify-center space-x-3 mt-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
-                className={`testimonial-dot w-3 h-3 rounded-full ${
-                  activeIndex === index ? "bg-primary" : "bg-gray-600"
+                className={`testimonial-dot w-3 h-3 rounded-full transition-all duration-300 ${
+                  activeIndex === index ? "bg-primary scale-110" : "bg-gray-600 opacity-70"
                 }`}
                 onClick={() => handleDotClick(index)}
                 aria-label={`Go to testimonial ${index + 1}`}

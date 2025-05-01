@@ -10,7 +10,7 @@ const useCasesData = [
     industry: "finance",
     title: "Investment Analysis Automation",
     description:
-      "An investment firm leveraged our AI agents to analyze market trends, earnings reports, and news sentiment, reducing research time by 70% while improving investment decision accuracy.",
+      "An investment firm leveraged AI agents to analyze market trends, earnings reports, and news sentiment, reducing research time by 70% while improving investment decision accuracy.",
     results: "70% time savings, 22% improved returns",
     imageSrc:
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -20,7 +20,7 @@ const useCasesData = [
     industry: "healthcare",
     title: "Patient Care Coordination",
     description:
-      "A hospital network deployed our AI agents to coordinate patient care across departments, ensuring seamless information flow and reducing administrative overhead.",
+      "A hospital network deployed AI agents to coordinate patient care across departments, ensuring seamless information flow and reducing administrative overhead.",
     results: "32% faster patient processing, 45% staff satisfaction increase",
     imageSrc:
       "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -30,7 +30,7 @@ const useCasesData = [
     industry: "ecommerce",
     title: "Inventory & Supply Chain Optimization",
     description:
-      "An online retailer implemented our AI agents to predict inventory needs, optimize supply chain operations, and reduce stockouts while minimizing excess inventory.",
+      "An online retailer implemented AI agents to predict inventory needs, optimize supply chain operations, and reduce stockouts while minimizing excess inventory.",
     results: "28% reduction in stockouts, 18% inventory cost savings",
     imageSrc:
       "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -63,7 +63,7 @@ const UseCasesSection: FC = () => {
             </span>
           </h2>
           <p className="text-gray-300 mb-8">
-            See how businesses across industries are leveraging our AI agents to
+            See how businesses across industries are leveraging AI agents to
             transform their operations and drive growth.
           </p>
 

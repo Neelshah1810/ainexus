@@ -1,5 +1,5 @@
 import { FC } from "react";
-import narnetixLogo from "../assets/narnetix-logo.png";
+import logo from "../assets/logo1.png";
 import { SITE_NAME } from "@/lib/constants";
 
 interface LogoProps {
@@ -16,11 +16,11 @@ const Logo: FC<LogoProps> = ({ size = "md" }) => {
   return (
     <div className="flex items-center space-x-2">
       <img 
-        src={narnetixLogo} 
+        src={logo} 
         alt={SITE_NAME} 
         className={`${sizeClasses[size]}`} 
       />
-      <span className="text-white font-bold text-xl">Narnetix AI</span>
+      <span className="text-foreground font-bold text-xl">Narnetix AI</span>
     </div>
   );
 };

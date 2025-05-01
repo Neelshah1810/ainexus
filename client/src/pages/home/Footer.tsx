@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
 import Logo from "@/components/Logo";
-import { Linkedin, Github, Twitter } from "lucide-react";
+import { Linkedin, Instagram, Facebook } from "lucide-react";
 
 const footerLinks = {
   solutions: [
@@ -13,20 +13,18 @@ const footerLinks = {
   company: [
     { name: "About Us", href: "#about" },
     { name: "Case Studies", href: "#use-cases" },
-    { name: "Careers", href: "#" },
-    { name: "Blog", href: "#" },
+    { name: "Contact Us", href: "#contact" },
   ],
   legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Data Processing", href: "#" },
-    { name: "Compliance", href: "#" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Service", href: "/terms-of-service" },
   ],
 };
 
 const Footer: FC = () => {
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const href = e.currentTarget.getAttribute("href");
+    // Only handle smooth scrolling for anchor links (starting with #)
     if (href?.startsWith("#")) {
       e.preventDefault();
       const element = document.querySelector(href);
@@ -37,13 +35,15 @@ const Footer: FC = () => {
         });
       }
     }
+    // Let normal navigation happen for non-anchor links
   };
 
   return (
     <footer className="py-12 bg-dark-DEFAULT border-t border-gray-800">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
           <motion.div
+            className="md:col-span-4 pr-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -58,30 +58,33 @@ const Footer: FC = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://www.linkedin.com/company/narnetix-ai/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
-                aria-label="LinkedIn"
+                aria-label="Visit Narnetix AI LinkedIn Company Page"
               >
                 <Linkedin className="h-6 w-6" />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors"
-                aria-label="GitHub"
+                aria-label="Follow Narnetix AI on Instagram"
               >
-                <Github className="h-6 w-6" />
+                <Instagram className="h-6 w-6" />
               </a>
               <a
                 href="#"
                 className="text-gray-400 hover:text-white transition-colors"
-                aria-label="Twitter"
+                aria-label="Visit Narnetix AI Facebook Page"
               >
-                <Twitter className="h-6 w-6" />
+                <Facebook className="h-6 w-6" />
               </a>
             </div>
           </motion.div>
 
           <motion.div
+            className="md:col-span-3 md:pl-8 w-full -mr-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -93,7 +96,7 @@ const Footer: FC = () => {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-400 hover:text-white transition-colors whitespace-nowrap"
                     onClick={handleLinkClick}
                   >
                     {link.name}
@@ -104,6 +107,7 @@ const Footer: FC = () => {
           </motion.div>
 
           <motion.div
+            className="md:col-span-2 md:pl-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -126,6 +130,7 @@ const Footer: FC = () => {
           </motion.div>
 
           <motion.div
+            className="md:col-span-3 md:pl-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -138,6 +143,7 @@ const Footer: FC = () => {
                   <a
                     href={link.href}
                     className="text-gray-400 hover:text-white transition-colors"
+                    // No onClick handler for legal links - they should navigate normally
                   >
                     {link.name}
                   </a>

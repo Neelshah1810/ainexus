@@ -29,7 +29,7 @@ const AboutSection: FC = () => {
               </span>
             </h2>
             <p className="text-gray-300 mb-6">
-              At AgentAI, we're not just building another AI tool – we're creating
+              At Narnetix AI, we're not just building another AI tool – we're creating
               intelligent agents that understand your business context, learn from
               interactions, and take autonomous action to achieve your goals.
             </p>
@@ -46,7 +46,7 @@ const AboutSection: FC = () => {
                 <p className="text-gray-300">Reduction in manual workflow tasks</p>
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-secondary mb-2">3.5x</h3>
+                <h3 className="text-2xl font-bold text-primary mb-2">3.5x</h3>
                 <p className="text-gray-300">Increase in operational efficiency</p>
               </div>
             </div>

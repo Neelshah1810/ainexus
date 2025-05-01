@@ -19,13 +19,13 @@ const solutionsData = [
   {
     title: "AI Workflow Automation",
     description: "End-to-end automated workflows powered by AI that can handle complex business processes, allowing your team to focus on high-value tasks.",
-    icon: <Database className="h-6 w-6 text-secondary" />,
+    icon: <Database className="h-6 w-6 text-primary" />,
     features: [
       "No-code workflow builder",
       "Decision-point optimization",
       "Real-time monitoring and insights"
     ],
-    color: "secondary"
+    color: "primary"
   },
   {
     title: "Data-Driven Decision Systems",
@@ -41,13 +41,13 @@ const solutionsData = [
   {
     title: "AI Integration for Business Software",
     description: "Seamlessly integrate our AI agents with your existing CRMs, ERPs, and other business software to enhance their capabilities and create a unified workflow.",
-    icon: <Zap className="h-6 w-6 text-secondary" />,
+    icon: <Zap className="h-6 w-6 text-primary" />,
     features: [
       "Ready-made connectors for popular platforms",
       "Custom API development",
       "Secure data exchange protocols"
     ],
-    color: "secondary"
+    color: "primary"
   }
 ];
 
@@ -99,7 +99,7 @@ const SolutionsSection: FC = () => {
             >
               <Card className="bg-dark-DEFAULT border border-gray-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full">
                 <CardContent className="p-8">
-                  <div className={`h-14 w-14 bg-${solution.color}/10 rounded-full flex items-center justify-center mb-6`}>
+                  <div className="h-14 w-14 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                     {solution.icon}
                   </div>
                   <h3 className="text-xl font-bold mb-3">{solution.title}</h3>
@@ -110,7 +110,7 @@ const SolutionsSection: FC = () => {
                       <li key={idx} className="flex items-start">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className={`h-5 w-5 text-${solution.color} mt-0.5 mr-2`}
+                          className="h-5 w-5 text-primary mt-0.5 mr-2"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -127,7 +127,7 @@ const SolutionsSection: FC = () => {
                   
                   <Button 
                     variant="link" 
-                    className={`text-${solution.color} hover:text-${solution.color}-dark font-medium p-0 flex items-center`}
+                    className="text-primary hover:text-primary/80 font-medium p-0 flex items-center"
                     asChild
                   >
                     <a href="#contact">
